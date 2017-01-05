@@ -1,0 +1,38 @@
+---
+
+# ------------------------------------------------------------------------
+# INSTALL FAIL2BAN
+# ------------------------------------------------------------------------
+
+- name: "Install packages needed for Fail2Ban"
+  yum: 
+    name: "{{ item }}" 
+    state: latest
+  with_items:
+    - fail2ban
+
+- name: "Install packages needed for using systemd in Fail2Ban"
+  yum: 
+    name: "{{ item }}" 
+    state: latest
+  with_items:
+    - fail2ban-systemd
+  when: use_systemd
+
+- name: "Start and enable Fail2Ban"
+  service: name=fail2ban enabled=yes state=started
+
+
+# ------------------------------------------------------------------------
+# CONFIGURE FAIL2BAN
+# ------------------------------------------------------------------------
+
+- name: "Add nrpe command in {{ nrpe_commands_dir }}/epona_commands.cfg"
+  template: 
+    backup: yes
+    src: "jail.local.fedora.j2"
+    dest: "{{ fail2ban_dir }}/jail.local"
+    owner: root 
+    group: root 
+    mode: u=rw,g=rw,o=r
+  notify: reload fail2ban

@@ -1,0 +1,40 @@
+---
+
+# ------------------------------------------------------------------------
+# CLIENT CONFIG VARIABLES
+#
+# These are the default values for the roles:
+# - client_config
+# - server_config
+#
+# If you want to override them, then comment out the variables since this
+# file will take precendence over the default var file.
+# ------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------
+# NRPE Vars
+# ------------------------------------------------------------------------
+
+## NRPE config file
+#nrpe_config_file: "/etc/nagios/nrpe.cfg"
+
+## NRPE commands directory
+#nrpe_commands_dir: "/etc/nrpe.d"
+
+## The default custom plugin directory
+#custom_plugin_dir: "/usr/lib64/nagios/custom-plugins"
+
+
+# ------------------------------------------------------------------------
+# Firewalld / iptables Vars
+# ------------------------------------------------------------------------
+
+## Using firewalld with CentOS 7
+#use_firewalld: ansible_distribution_major_version == "7"
+
+## Using iptables with CentOS 6
+#use_iptables: ansible_distribution_major_version == "6"
+
+## Zone to put the NRPE rule; the source added will be the server
+#firewalld_zone: "work"
+

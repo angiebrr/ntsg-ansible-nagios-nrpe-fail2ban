@@ -1,0 +1,8 @@
+---
+
+# ------------------------------------------------------------------------
+# SERVER CONFIG HANDLERS
+# ------------------------------------------------------------------------
+
+- name: restart nagios
+  service: name={{ nagios_service_name }} state=restarted

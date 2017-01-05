@@ -1,0 +1,62 @@
+---
+
+# ------------------------------------------------------------------------
+# CHECK HOST OPERATING SYSTEM, VAULT VARS, and INVENTORY VARS
+# ------------------------------------------------------------------------
+- name: Ensure that the host computer can run this playbook
+  hosts: all
+  tasks:
+    - assert: 
+        that: 
+          - ansible_distribution == "CentOS"
+          - ansible_distribution_major_version == "6" or ansible_distribution_major_version == "7"
+          - groups['nagios_clients'] is defined and groups['nagios_server'] is defined
+
+# ------------------------------------------------------------------------
+# NAGIOS CLIENT CONFIGURATION
+# ------------------------------------------------------------------------
+- name: Configure client machine(s) to be able to be monitored by the nagios server
+  hosts: nagios_clients
+  become: true
+  vars_files:
+    - defaults/client.yml
+    - defaults/local.yml
+  roles:
+    - client_config
+
+# ------------------------------------------------------------------------
+# SERVER CONFIGURATION
+# ------------------------------------------------------------------------
+- name: Configure server machine to monitor the client machine(s)
+  hosts: nagios_server
+  become: true
+  vars_files:
+    - defaults/server.yml
+    - defaults/local.yml
+  roles:
+    - server_config
+
+# ------------------------------------------------------------------------
+# NAGIOS CLIENT FAIL2BAN CONFIGURATION
+# ------------------------------------------------------------------------
+- name: Configure server machine to monitor the client machine(s)
+  hosts: nagios_clients
+  become: true
+  vars_files:
+    - defaults/fail2ban.yml
+    - defaults/local.yml
+  roles:
+    - client_fail2ban
+  when: install_fail2ban
+
+# ------------------------------------------------------------------------
+# CENTRALIZE BACKUPS
+# ------------------------------------------------------------------------
+- name: Move all backed up files created by this playbook to a centralized location.
+  hosts: all
+  become: true
+  vars_files:
+    - defaults/backups.yml
+    - defaults/local.yml
+  roles:
+    - backups

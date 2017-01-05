@@ -1,0 +1,29 @@
+---
+
+# ------------------------------------------------------------------------
+# SERVER CONFIG DEFAULT VARIABLES
+#
+# These are the default values for the "server_config" role.
+#
+# If you want to override them, then comment out the variables since this
+# file will take precendence over the default var file.
+# ------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------
+# NRPE Vars
+# ------------------------------------------------------------------------
+
+## Check NRPE path
+#check_nrpe_path: "/usr/lib64/nagios/plugins/check_nrpe"
+
+
+# ------------------------------------------------------------------------
+# Nagios Vars
+# ------------------------------------------------------------------------
+
+# nagios_service_name: "nagios"
+#nagios_server_host_dir: "{{ nagios_dir }}/conf.d/hosts"
+
+
+

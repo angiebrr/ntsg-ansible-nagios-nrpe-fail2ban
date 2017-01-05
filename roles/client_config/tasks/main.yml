@@ -1,0 +1,143 @@
+---
+
+# ------------------------------------------------------------------------
+# UPDATE SOFTWARE AND INSTALL PACKAGES NEEDED
+# ------------------------------------------------------------------------
+
+- name: "Update system software"
+  yum: name=* state=latest
+
+- name: "Install EPEL"
+  yum: 
+    name: "{{ item }}" 
+    state: latest
+  with_items:
+    - epel-release
+
+- name: "Install packages needed for NRPE and Nagios Plugins (from EPEL)"
+  yum: 
+    name: "{{ item }}" 
+    state: latest
+  with_items:
+    - nrpe
+    - nagios-plugins-all
+
+# ------------------------------------------------------------------------
+# ADD NRPE COMMAND FILES
+# ------------------------------------------------------------------------
+
+- name: "Create the custom plugin directory in {{ nrpe_commands_dir }}/"
+  file: 
+    path: "{{ nrpe_commands_dir }}/"
+    state: directory
+
+- name: "Ensure that {{ nrpe_commands_dir }}/ is included as a config directory for nrpe. The original file is backed up."
+  lineinfile: 
+    dest: "{{ nrpe_config_file }}"
+    backup: yes
+    owner: root 
+    group: root
+    line: "include_dir={{ nrpe_commands_dir }}/"
+  notify: restart nrpe
+
+- name: "Add nrpe command in {{ nrpe_commands_dir }}/epona_commands.cfg"
+  template: src=nrpe_epona_commands.fedora.j2 dest={{ nrpe_commands_dir }}/epona_commands.cfg owner=root group=root mode=0775
+
+# ------------------------------------------------------------------------
+# ADD CUSTOM SCRIPTS FOR NRPE
+# ------------------------------------------------------------------------
+
+- name: "Create the custom plugin directory in {{ custom_plugin_dir }}"
+  file: 
+    path: "{{ custom_plugin_dir }}"
+    state: directory
+
+- name: "Add check mountpoints custom plugin in {{ custom_plugin_dir }}/check_mountpoints"
+  template: src=check_mountpoints.fedora.j2 dest={{ custom_plugin_dir }}/check_mountpoints owner=root group=root mode=0775
+
+- name: "Add show users custom plugin in {{ custom_plugin_dir }}/show_users"
+  template: src=show_users.fedora.j2 dest={{ custom_plugin_dir }}/show_users owner=root group=root mode=0775 
+
+# ------------------------------------------------------------------------
+# FIREWALLD
+# ------------------------------------------------------------------------
+
+- name: "Install Firewalld"
+  yum: 
+    name: "{{ item }}" 
+    state: latest
+  with_items:
+    - firewalld
+  when: use_firewalld
+
+- name: "Start and enable Firewalld"
+  service: name=firewalld state=started enabled=yes
+  when: use_firewalld
+
+- name: "Add custom firewalld service in /etc/firewalld/services/nrpe.xml"
+  template: src=nrpe_firewalld_service.fedora7.j2 dest={{ custom_plugin_dir }}/show_users owner=root group=root mode=0600
+  when: use_firewalld
+  notify: restart firewalld
+  when: use_firewalld
+
+- meta: flush_handlers
+
+- name: "Add nrpe service to the {{ firewalld_zone }}"
+  firewalld: zone={{ firewalld-zone }} service=nrpe permanent=true state=true 
+  notify: restart firewalld
+  when: use_firewalld
+
+- name: "Add the nagios server, {{ groups['nagios_server'][0] }}, to the {{ firewalld_zone }}"
+  firewalld: zone={{ firewalld_zone }} source={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} permanent=true state=true 
+  with_items: {{ groups['nagios_server'] }}
+  notify: restart firewalld
+  when: use_firewalld
+
+
+# ------------------------------------------------------------------------
+# IPTABLES
+# ------------------------------------------------------------------------
+
+- name: "Adds an iptables rule to drop all NRPE connections except the server."
+  iptables:
+    chain: INPUT
+    action: insert
+    protocol: tcp
+    destination_port: 5666
+    source: "! {{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}"
+    jump: DROP
+  with_items: {{ groups['nagios_server'] }}
+  when: use_iptables
+
+# ------------------------------------------------------------------------
+# START NRPE
+# ------------------------------------------------------------------------
+
+- name: "Start and enable NRPE"
+  service: name=nrpe state=started enabled=yes
+
+
+# ------------------------------------------------------------------------
+# CREATE HOST FILE FOR NAGIOS
+# ------------------------------------------------------------------------
+
+- name: "Create the remote ansible directory in {{ remote_ansible_nagios_dir }}/"
+  file: 
+    path: "{{ remote_ansible_nagios_dir }}/"
+    state: directory
+
+- name: "Create the local ansible directory in {{ local_ansible_nagios_dir }}/inventory"
+  local_action: file path="{{ local_ansible_nagios_dir }}/inventory" state="directory"
+
+- name: "Create a nagios host config file for this host"
+  template: 
+    src: host.fedora.j2 
+    dest: {{ remote_ansible_nagios_dir }}/{{ inventory_hostname_short.lower() }}.cfg 
+    owner: root 
+    group: root 
+    mode: 0600
+
+- name: "Copying the host config file from the remote machine to this local machine"
+  fetch:
+    src: {{ remote_ansible_nagios_dir }}/{{ inventory_hostname_short.lower() }}.cfg
+    dest: {{ local_ansible_nagios_dir }}/inventory/{{ inventory_hostname_short.lower() }}.cfg

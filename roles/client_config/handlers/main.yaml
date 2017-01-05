@@ -1,0 +1,11 @@
+---
+
+# ------------------------------------------------------------------------
+# CLIENT CONFIG HANDLERS
+# ------------------------------------------------------------------------
+
+- name: restart nrpe
+  service: name=nrpe state=restarted
+
+- name: restart firewalld
+  service: name=firewalld state=restarted

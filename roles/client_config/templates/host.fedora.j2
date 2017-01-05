@@ -1,0 +1,15 @@
+###############################################################################
+###############################################################################
+#
+# {{ host_name.upper() }} HOST DEFINITION
+# Created by ansible {{ ansible_date_time.date }}
+#
+###############################################################################
+###############################################################################
+define host{
+        use                     {{ host_templates }}                    ; Inherit default values from a template
+        host_name               {{ inventory_hostname_short.lower() }}  ; The name we're giving this server
+        alias                   {{ host_alias }}                        ; A longer name for our server
+        address                 {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} ; IP address of remote host
+        hostgroups              {{ host_groups }}                       ; Groups that this host is part of
+}

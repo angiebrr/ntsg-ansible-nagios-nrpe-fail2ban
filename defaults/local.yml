@@ -1,0 +1,30 @@
+---
+
+# ------------------------------------------------------------------------
+# DEFAULT VARIABLES FOR LOCAL, CLIENT, AND SERVER USE
+# These variables are used for the roles:
+# - client_config
+# - client_fail2ban
+# - server_config
+# ------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------
+# Ansible Vars
+# ------------------------------------------------------------------------
+
+# Ansible folders
+remote_ansible_dir: "/usr/local/lib/ansible"
+local_ansible_dir: "/usr/local/lib/ansible"
+
+# Ansible Nagios dir
+remote_ansible_nagios_dir: "{{ remote_ansible_dir }}/nagios"
+local_ansible_nagios_dir: "{{ local_ansible_dir }}/nagios"
+
+
+# ------------------------------------------------------------------------
+# Nagios Vars
+# ------------------------------------------------------------------------
+
+nagios_dir: "/etc/nagios"
+fail2ban_dir: "/etc/fail2ban"
+
