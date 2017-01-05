@@ -1,4 +1,4 @@
-# Configure Nagios Client Ansible with NRPE
+# Configure Nagios/Naemon/Icinga Remote Host with Ansible and NRPE
 
 ## Overview
 
