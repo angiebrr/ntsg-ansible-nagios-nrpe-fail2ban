@@ -47,7 +47,6 @@
     - defaults/local.yml
   roles:
     - client_fail2ban
-  when: install_fail2ban
 
 # ------------------------------------------------------------------------
 # CENTRALIZE BACKUPS

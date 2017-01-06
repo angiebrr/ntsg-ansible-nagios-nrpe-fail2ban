@@ -10,6 +10,7 @@
     state: latest
   with_items:
     - fail2ban
+  when: install_fail2ban
 
 - name: "Install packages needed for using systemd in Fail2Ban"
   yum: 
@@ -17,10 +18,11 @@
     state: latest
   with_items:
     - fail2ban-systemd
-  when: use_systemd
+  when: install_fail2ban and use_systemd
 
 - name: "Start and enable Fail2Ban"
   service: name=fail2ban enabled=yes state=started
+  when: install_fail2ban
 
 
 # ------------------------------------------------------------------------
@@ -36,3 +38,4 @@
     group: root 
     mode: u=rw,g=rw,o=r
   notify: reload fail2ban
+  when: install_fail2ban
