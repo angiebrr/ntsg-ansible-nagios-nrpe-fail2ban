@@ -75,7 +75,12 @@
   when: use_firewalld
 
 - name: "Add custom firewalld service in /etc/firewalld/services/nrpe.xml"
-  template: src=nrpe_firewalld_service.fedora7.j2 dest={{ custom_plugin_dir }}/show_users owner=root group=root mode=0600
+  template: 
+    src: "nrpe_firewalld_service.fedora7.j2" 
+    dest: "/etc/firewalld/services/nrpe.xml" 
+    owner: root 
+    group: root 
+    mode: 0600
   notify: restart firewalld
   when: use_firewalld
 
