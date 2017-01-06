@@ -95,7 +95,6 @@
   when: use_firewalld
 
 - name: "Add the nagios server, {{ groups['nagios_server'][0] }}, to the {{ firewalld_zone }} zone"
-  strategy: debug
   firewalld: 
     zone: "{{ firewalld_zone }}" 
     source: "{{ hostvars[groups['nagios_server'][0]]['ansible_eth0']['ipv4']['address'] }}/32" 

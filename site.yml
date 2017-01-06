@@ -17,6 +17,7 @@
 # ------------------------------------------------------------------------
 - name: Configure client machine(s) to be able to be monitored by the nagios server
   hosts: nagios_clients
+  strategy: debug
   become: true
   vars_files:
     - defaults/client.yml
@@ -29,6 +30,7 @@
 # ------------------------------------------------------------------------
 - name: Configure server machine to monitor the client machine(s)
   hosts: nagios_server
+  strategy: debug
   become: true
   vars_files:
     - defaults/server.yml
@@ -41,6 +43,7 @@
 # ------------------------------------------------------------------------
 - name: Configure server machine to monitor the client machine(s)
   hosts: nagios_clients
+  strategy: debug
   become: true
   vars_files:
     - defaults/fail2ban.yml
@@ -53,6 +56,7 @@
 # ------------------------------------------------------------------------
 - name: Move all backed up files created by this playbook to a centralized location.
   hosts: all
+  strategy: debug
   become: true
   vars_files:
     - defaults/backups.yml
