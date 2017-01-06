@@ -33,7 +33,7 @@
   template: 
     backup: yes
     src: "jail.local.fedora.j2"
-    dest: "{{ fail2ban_dir }}/jail.local"
+    dest: "{{ client_fail2ban_dir }}/jail.local"
     owner: root 
     group: root 
     mode: u=rw,g=rw,o=r

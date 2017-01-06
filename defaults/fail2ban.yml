@@ -5,8 +5,8 @@
 # ------------------------------------------------------------------------
 
 ## Using firewalld and systemd with CentOS 7
-# use_firewalld: ansible_distribution_major_version == "7"
-# use_systemd: ansible_distribution_major_version == "7"
+#use_firewalld: ansible_distribution_major_version == "7"
+#use_systemd: ansible_distribution_major_version == "7"
 
 ## Using iptables with CentOS 6
 #use_iptables: ansible_distribution_major_version == "6"

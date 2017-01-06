@@ -25,6 +25,6 @@ local_ansible_nagios_dir: "{{ local_ansible_dir }}/nagios"
 # Nagios Vars
 # ------------------------------------------------------------------------
 
-nagios_dir: "/etc/nagios"
-fail2ban_dir: "/etc/fail2ban"
+client_nagios_dir: "/etc/nagios"
+client_fail2ban_dir: "/etc/fail2ban"
 

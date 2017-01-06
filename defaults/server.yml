@@ -22,8 +22,8 @@
 # Nagios Vars
 # ------------------------------------------------------------------------
 
-# nagios_service_name: "nagios"
-#nagios_server_host_dir: "{{ nagios_dir }}/conf.d/hosts"
+#nagios_service_name: "nagios"
+#nagios_server_host_dir: "/etc/nagios/conf.d/hosts"
 
 
 
