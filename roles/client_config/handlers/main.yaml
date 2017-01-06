@@ -7,5 +7,8 @@
 - name: restart nrpe
   service: name=nrpe state=restarted
 
+- name: reload firewalld
+  service: name=firewalld state=reload
+
 - name: restart firewalld
   service: name=firewalld state=restarted
