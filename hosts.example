@@ -14,7 +14,7 @@ host_templates="generic-host,web-server"
 host_groups="web-servers"
 install_fail2ban=no
 
-[nagios_clients]
+[nagios_clients:children]
 linux_servers
 web_servers
 
