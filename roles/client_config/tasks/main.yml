@@ -40,6 +40,16 @@
     line: "include_dir={{ nrpe_commands_dir }}/"
   notify: restart nrpe
 
+- name: "Ensure that the nagios server is included in the nrpe config. The original file is backed up."
+  lineinfile: 
+    dest: "{{ nrpe_config_file }}"
+    backup: yes
+    owner: root 
+    group: root
+    regexp: "^allowed_hosts="
+    line: "allowed_hosts=127.0.0.1,{{ hostvars[groups['nagios_server'][0]]['ansible_default_ipv4']['address'] }}"
+  notify: restart nrpe
+
 - name: "Add nrpe command in {{ nrpe_commands_dir }}/epona_commands.cfg"
   template: src=nrpe_epona_commands.fedora.j2 dest={{ nrpe_commands_dir }}/epona_commands.cfg owner=root group=root mode=0775
 
