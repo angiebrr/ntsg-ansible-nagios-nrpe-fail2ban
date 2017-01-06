@@ -5,7 +5,7 @@
 # ------------------------------------------------------------------------
 
 - name: "Check that the nagios server can reach NRPE"
-  command: /bin/bash -c "{{ check_nrpe_path }} -H {{ host_ip }}"
+  command: /bin/bash -c "{{ check_nrpe_path }} -H {{ hostvars[groups['nagios_server'][0]]['ansible_default_ipv4']['address'] }}"
   changed_when: no
   with_items: "{{ groups['nagios_clients'] }}"
 

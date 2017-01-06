@@ -1,5 +1,5 @@
 [linux_servers]
-superclient 	ansible_host=superclient.nagios-machine.com 	ansible_port=22 	ansible_user=ansible 	host_alias="Super Client Server" host_ip="127.0.0.1"
+superclient 	ansible_host=superclient.nagios-machine.com 	ansible_port=22 	ansible_user=ansible 	host_alias="Super Client Server"
 
 [linux_servers:vars]
 host_templates="generic-host,linux-server"
@@ -7,7 +7,7 @@ host_groups="linux-servers"
 install_fail2ban=yes
 
 [web_servers]
-neatclient 		ansible_host=neatclient.nagios-machine.com 		ansible_port=22 	ansible_user=ansible 	host_alias="Neat Client Server" host_ip="127.0.0.1"
+neatclient 		ansible_host=neatclient.nagios-machine.com 		ansible_port=22 	ansible_user=ansible 	host_alias="Neat Client Server"
 
 [web_servers:vars]
 host_templates="generic-host,web-server"
@@ -19,4 +19,4 @@ linux_servers
 web_servers
 
 [nagios_server]
-nagios_server 	ansible_host=server.nagios-machine.com 			ansible_port=22 	ansible_user=ansible  	host_ip="127.0.0.1"
+nagios_server 	ansible_host=server.nagios-machine.com 			ansible_port=22 	ansible_user=ansible  
