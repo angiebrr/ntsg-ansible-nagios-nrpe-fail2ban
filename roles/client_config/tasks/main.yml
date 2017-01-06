@@ -81,7 +81,7 @@
     owner: root 
     group: root 
     mode: 0600
-  notify: reload firewalld
+  notify: reload firewallcmd
   when: use_firewalld
 
 - meta: flush_handlers
@@ -92,7 +92,6 @@
     service: nrpe 
     permanent: true 
     state: enabled 
-  notify: reload firewalld
   when: use_firewalld
 
 - name: "Add the nagios server, {{ groups['nagios_server'][0] }}, to the {{ firewalld_zone }}"
@@ -101,7 +100,6 @@
     source: "{{ hostvars[groups['nagios_server'][0]]['ansible_eth0']['ipv4']['address'] }}/32" 
     permanent: true 
     state: enabled 
-  notify: reload firewalld
   when: use_firewalld
 
 
