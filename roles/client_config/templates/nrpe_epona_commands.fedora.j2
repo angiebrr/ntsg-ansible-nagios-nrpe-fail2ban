@@ -1,6 +1,4 @@
-{%raw%}
-
-# Built-in Plugins expected on all NRPE Servers monitored by Epona
+{%raw%}# Built-in Plugins expected on all NRPE Servers monitored by Epona
 command[check_users]=/usr/lib64/nagios/plugins/check_users -w 30 -c 40
 command[check_load]=/usr/lib64/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 command[check_zombie_procs]=/usr/lib64/nagios/plugins/check_procs -w 5 -c 10 -s Z
