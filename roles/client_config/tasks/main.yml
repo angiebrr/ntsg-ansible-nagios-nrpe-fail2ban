@@ -133,9 +133,11 @@
   file: 
     path: "{{ remote_ansible_nagios_dir }}/"
     state: directory
+    owner: "{{ hostvars[inventory_hostname_short]['ansible_user'] }}"
+    group: "{{ hostvars[inventory_hostname_short]['ansible_user'] }}"
 
 - name: "Create the local ansible directory in {{ local_ansible_nagios_dir }}/inventory"
-  local_action: file path="{{ local_ansible_nagios_dir }}/inventory" state="directory"
+  local_action: file path="{{ local_ansible_nagios_dir }}/inventory" state="directory" owner="{{ hostvars[groups['nagios_server'][0]]['ansible_user'] }}" group="{{ hostvars[groups['nagios_server'][0]]['ansible_user'] }}"
 
 - name: "Create a nagios host config file for this host"
   template: 
