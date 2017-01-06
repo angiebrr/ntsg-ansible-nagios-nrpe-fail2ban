@@ -149,3 +149,4 @@
   fetch:
     src: "{{ remote_ansible_nagios_dir }}/{{ inventory_hostname_short.lower() }}.cfg"
     dest: "{{ local_ansible_nagios_dir }}/inventory/{{ inventory_hostname_short.lower() }}.cfg"
+    flat: yes
