@@ -22,6 +22,7 @@
 # Nagios Vars
 # ------------------------------------------------------------------------
 
+#nagios_user_name: "nagios"
 #nagios_service_name: "nagios"
 #nagios_server_host_dir: "/etc/nagios/conf.d/hosts"
 

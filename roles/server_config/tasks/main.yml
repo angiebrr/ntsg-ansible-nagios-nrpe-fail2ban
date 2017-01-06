@@ -5,16 +5,9 @@
 # ------------------------------------------------------------------------
 
 - name: "Check that the nagios server can reach NRPE"
-  command: /bin/bash -c "{{ check_nrpe_path }} -H {{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}"
-  register: check_nrpe_clients
-  always_run: yes
+  command: /bin/bash -c "{{ check_nrpe_path }} -H {{ host_ip }}"
   changed_when: no
-  ignore_errors: yes
   with_items: "{{ groups['nagios_clients'] }}"
-
-- fail: msg="One of the nagios clients cannot be reached with NRPE"
-  when: item.rc != 0
-  with_items: "{{ check_nrpe_clients.results }}"
 
 
 # ------------------------------------------------------------------------
@@ -31,8 +24,8 @@
     backup: yes
     src: "{{ local_ansible_nagios_dir }}/inventory"
     dest: "{{ nagios_server_host_dir }}/"
-    owner: naemon
-    group: naemon
+    owner: "{{ nagios_user_name }}"
+    group: "{{ nagios_user_name }}"
     mode: u=rw,g=rw,o=r
   notify: restart nagios
 
