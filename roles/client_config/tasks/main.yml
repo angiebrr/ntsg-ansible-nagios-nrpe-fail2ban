@@ -88,8 +88,7 @@
   when: use_firewalld
 
 - name: "Add the nagios server, {{ groups['nagios_server'][0] }}, to the {{ firewalld_zone }}"
-  firewalld: zone={{ firewalld_zone }} source={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} permanent=true state=true 
-  with_items: {{ groups['nagios_server'] }}
+  firewalld: zone={{ firewalld_zone }} source={{ hostvars[groups['nagios_server'][0]]['ansible_eth0']['ipv4']['address'] }} permanent=true state=true 
   notify: restart firewalld
   when: use_firewalld
 
@@ -104,9 +103,8 @@
     action: insert
     protocol: tcp
     destination_port: 5666
-    source: "! {{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}"
+    source: "! {{ hostvars[groups['nagios_server'][0]]['ansible_eth0']['ipv4']['address'] }}"
     jump: DROP
-  with_items: {{ groups['nagios_server'] }}
   when: use_iptables
 
 # ------------------------------------------------------------------------
