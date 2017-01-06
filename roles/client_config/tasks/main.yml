@@ -130,12 +130,12 @@
 - name: "Create a nagios host config file for this host"
   template: 
     src: host.fedora.j2 
-    dest: {{ remote_ansible_nagios_dir }}/{{ inventory_hostname_short.lower() }}.cfg 
+    dest: "{{ remote_ansible_nagios_dir }}/{{ inventory_hostname_short.lower() }}.cfg" 
     owner: root 
     group: root 
     mode: 0600
 
 - name: "Copying the host config file from the remote machine to this local machine"
   fetch:
-    src: {{ remote_ansible_nagios_dir }}/{{ inventory_hostname_short.lower() }}.cfg
-    dest: {{ local_ansible_nagios_dir }}/inventory/{{ inventory_hostname_short.lower() }}.cfg
+    src: "{{ remote_ansible_nagios_dir }}/{{ inventory_hostname_short.lower() }}.cfg"
+    dest: "{{ local_ansible_nagios_dir }}/inventory/{{ inventory_hostname_short.lower() }}.cfg"

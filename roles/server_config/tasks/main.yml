@@ -10,11 +10,11 @@
   always_run: yes
   changed_when: no
   ignore_errors: yes
-  with_items: {{ groups['nagios_clients'] }}
+  with_items: "{{ groups['nagios_clients'] }}"
 
 - fail: msg="One of the nagios clients cannot be reached with NRPE"
   when: item.rc != 0
-  with_items: {{ check_nrpe_clients.results }}
+  with_items: "{{ check_nrpe_clients.results }}"
 
 
 # ------------------------------------------------------------------------
