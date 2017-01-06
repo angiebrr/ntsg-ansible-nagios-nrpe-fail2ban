@@ -2,6 +2,9 @@
 
 # ------------------------------------------------------------------------
 # CLIENT CONFIG FAIL2BAN DEFAULT VARIABLES
+#
+# These are the default values for the role "client_fail2ban"
+# If you want to override them, then comment out the variables
 # ------------------------------------------------------------------------
 
 ## Using firewalld and systemd with CentOS 7
