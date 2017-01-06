@@ -83,7 +83,7 @@
 
 - name: "Add nrpe service to the {{ firewalld_zone }} zone"
   firewalld: 
-    zone: "{{ firewalld-zone }}"
+    zone: "{{ firewalld_zone }}"
     service: nrpe 
     permanent: true 
     state: enabled 
