@@ -32,7 +32,7 @@ Then it:
 
 - copies every host definition to the Nagios server and restarts Nagios
 - installs Fail2Ban, with jails for SSH, sendmail, and NRPE, on the hosts whose group asks for it
-- backs up every file it changes first, like my AD playbooks ([combining-ad-nis-ansible](https://github.com/angiebrr/combining-ad-nis-ansible) and [configuring-ad-in-ansible](https://github.com/angiebrr/configuring-ad-in-ansible))
+- backs up every file it changes first, like my AD playbooks ([ntsg-combining-ad-nis-ansible](https://github.com/angiebrr/ntsg-combining-ad-nis-ansible) and [ntsg-configuring-ad-in-ansible](https://github.com/angiebrr/ntsg-configuring-ad-in-ansible))
 
 ## Using it
 
